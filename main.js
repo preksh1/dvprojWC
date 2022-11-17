@@ -1,9 +1,11 @@
+var fill = d3.scaleOrdinal().range(d3.schemeDark2);
+
 var myWords = [{'Event Name':'Womens World Cup', 'Hashtags': '', 'size': 3},
               {'EventName':'Thanks Giving','Hashtags': 'transgender ', 'size': 1},
               {'EventName':'Thanks Giving','Hashtags': 'lgbtrights ', 'size': 1},
-              {'EventName':'FIFA World Cup','Hashtags': 'parade  ', 'size': 1},
+              {'EventName':'FIFA World Cup','Hashtags': 'parade', 'size': 1},
               {'EventName':'Womens World Cup','Hashtags': 'queerlove ', 'size': 1},
-              {'EventName':'FIFA World Cup','Hashtags': 'trans ', 'size': 1},
+              {'EventName':'FIFA World Cup','Hashtags': 'trans', 'size': 1},
               {'EventName':'Womens World Cup','Hashtags': 'happy ', 'size': 1},
               {'EventName':'Womens World Cup','Hashtags': 'lgbtyouth ', 'size': 1},
               {'EventName':'Womens World Cup','Hashtags': 'lgbt ', 'size': 21},
@@ -19,6 +21,8 @@ var margin = {top: 10, right: 10, bottom: 10, left: 10},
     width = 450 - margin.left - margin.right,
     height = 450 - margin.top - margin.bottom;
 
+
+    var eventName="FIFA World Cup";
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -29,9 +33,19 @@ var svg = d3.select("#my_dataviz").append("svg")
 
 // Constructs a new cloud layout instance. It run an algorithm to find the position of words that suits your requirements
 // Wordcloud features that are different from one word to the other must be here
+
+var eventName="FIFA World Cup";
+selectedWords=[]
+  console.log(myWords);
+              myWords.map(function(d){
+                if(d.EventName==eventName){
+                  selectedWords.push(d);
+                }
+              })
+              console.log(selectedWords);
 var layout = d3.layout.cloud()
   .size([width, height])
-  .words(myWords.map(function(d) { return {text: d.Hashtags, size:d.size+10}; }))
+  .words(selectedWords.map(function(d) { return {text: d.Hashtags, size:d.size+10}; }))
   .padding(5)        //space between words
   .rotate(function() { return ~~(Math.random() * 2) * 90; })
   .fontSize(function(d) { return d.size; })      // font size of words
@@ -50,7 +64,8 @@ function draw(words) {
         .data(words)
       .enter().append("text")
         .style("font-size", function(d) { return d.size+ "px"; })
-        .style("fill", "#69b3a2")
+        // .style("fill", "#69b3a2")
+        .style("fill", function(d, i) { return fill(i); })
         .style("font-family", "Impact")
         .attr("text-anchor", "middle")
         .attr("transform", function(d) {
