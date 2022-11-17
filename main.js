@@ -22,7 +22,7 @@ var margin = {top: 10, right: 10, bottom: 10, left: 10},
     height = 450 - margin.top - margin.bottom;
 
 
-    var eventName="FIFA World Cup";
+    var eventName=["FIFA World Cup","Womens World Cup","Thanks Giving"];
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -34,11 +34,11 @@ var svg = d3.select("#my_dataviz").append("svg")
 // Constructs a new cloud layout instance. It run an algorithm to find the position of words that suits your requirements
 // Wordcloud features that are different from one word to the other must be here
 
-var eventName="FIFA World Cup";
+
 selectedWords=[]
   console.log(myWords);
               myWords.map(function(d){
-                if(d.EventName==eventName){
+                if(eventName.includes(d.EventName) ){
                   selectedWords.push(d);
                 }
               })
