@@ -15,11 +15,12 @@ var myWords = [{'Event Name':'Womens World Cup', 'Hashtags': '', 'size': 3},
               {'EventName':'FIFA World Cup','Hashtags': 'prideandjoy ', 'size': 1},
               {'EventName':'FIFA World Cup','Hashtags': 'prideweek ', 'size': 1},
               {'EventName':'FIFA World Cup','Hashtags': 'music', 'size': 1}]
+              
 
 // set the dimensions and margins of the graph
-var margin = {top: 10, right: 10, bottom: 10, left: 10},
-    width = 450 - margin.left - margin.right,
-    height = 450 - margin.top - margin.bottom;
+var margin = {top: 20, right: 20, bottom: 20, left: 20},
+    width = 1200 - margin.left - margin.right,
+    height = 900 - margin.top - margin.bottom;
 
 
     var eventName=["FIFA World Cup","Womens World Cup","Thanks Giving"];
@@ -64,7 +65,7 @@ function draw(words) {
         .data(words)
       .enter().append("text")
         .style("font-size", function(d) { return d.size+ "px"; })
-        // .style("fill", "#69b3a2")
+        
         .style("fill", function(d, i) { return fill(i); })
         .style("font-family", "Impact")
         .attr("text-anchor", "middle")
