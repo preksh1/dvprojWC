@@ -15,32 +15,9 @@ Promise.all([d3.csv("data/wordcloud.csv")])
       d.size = +d.size;
   });
 
-    console.log(eventsdata);
-});
+   
 
-var myWords = [{'Event Name':'Womens World Cup', 'Hashtags': '', 'size': 3},
-              {'EventName':'Thanks Giving','Hashtags': 'transgender ', 'size': 1},
-              {'EventName':'Thanks Giving','Hashtags': 'lgbtrights ', 'size': 1},
-              {'EventName':'FIFA World Cup','Hashtags': 'parade', 'size': 1},
-              {'EventName':'Womens World Cup','Hashtags': 'queerlove ', 'size': 1},
-              {'EventName':'FIFA World Cup','Hashtags': 'trans', 'size': 1},
-              {'EventName':'Womens World Cup','Hashtags': 'happy ', 'size': 1},
-              {'EventName':'Womens World Cup','Hashtags': 'lgbtyouth ', 'size': 1},
-              {'EventName':'Womens World Cup','Hashtags': 'lgbt ', 'size': 21},
-              {'EventName':'FIFA World Cup','Hashtags': 'tbtfollowers ', 'size': 1},
-              {'EventName':'FIFA World Cup','Hashtags': 'nonbinary ', 'size': 1},
-              {'EventName':'FIFA World Cup','Hashtags': 'pridemakeup ', 'size': 1},
-              {'EventName':'FIFA World Cup','Hashtags': 'prideandjoy ', 'size': 1},
-              {'EventName':'FIFA World Cup','Hashtags': 'prideweek ', 'size': 1},
-              {'EventName':'FIFA World Cup','Hashtags': 'music', 'size': 1}]
-
-              console.log(myWords);
-
-
-
-
-
-var eventName=["FIFA World Cup","Womens World Cup","Thanks Giving"];
+var eventName=["FIFA World Cup","Womens World Cup","ICAI"];
 
 var svg = d3.select("#my_dataviz").append("svg")
     .attr("width", width + margin.left + margin.right)
@@ -51,19 +28,24 @@ var svg = d3.select("#my_dataviz").append("svg")
 
 
 selectedWords=[]
+arraytobehighlight=[]
 eventsdata.map(function(d){
   if(eventName.includes(d.EventName) ){
     selectedWords.push(d);
+    arraytobehighlight.push(d.Hashtags);
   }
 })
 
-createlayout(myWords);
+
+
+createlayout(eventsdata);
              
-function createlayout(selectedWords)
+function createlayout(eventsdata)
 {
+  console.log(arraytobehighlight);
 var layout = d3.layout.cloud()
   .size([width, height])
-  .words(myWords.map(function(d) { return {text: d.Hashtags, size:d.size+10}; }))
+  .words(eventsdata.map(function(d) { return {text: d.Hashtags, size:d.size+10}; }))
   .padding(5)        
   .rotate(function() { return ~~(Math.random() * 2) * 90; })
   .fontSize(function(d) { return d.size; })     
@@ -82,7 +64,9 @@ function draw(words) {
       .data(words)
       .enter().append("text")
       .style("font-size", function(d) { return d.size+ "px"; })   
-      .style("fill", function(d, i) { return fill(i); })
+      .style("fill", function(d, i) { 
+        return arraytobehighlight.indexOf(d.text) >-1 ? "red" :fill(i); 
+        })
       .style("font-family", "Impact")
       .attr("text-anchor", "middle")
       .attr("transform", function(d) {
@@ -92,8 +76,4 @@ function draw(words) {
 }
 
 
-
-
-    
-
-       
+});
